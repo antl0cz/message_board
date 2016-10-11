@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Message Board</title>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/skeleton.css">
+    <style>
+        h4{
+            color: #0FA0CE;
+        }
+        h5{
+            color: lightskyblue;
+        }
+        h6{
+            color: steelblue;
+        }
+        .hide{
+            overflow: hidden;
+        }
+        .u-pull-right{
+            overflow-y: scroll;
+            height: 50vh;
+        }
+        #test{
+            padding-right: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3>The Dojo Message Board</h3>
+    <hr>
+    <div class="u-pull-left five columns">
+    <form action="/message" method="post">
+        <h4>Post a Message!</h4>
+        <input type="text" placeholder="Enter Name" name="name" class="u-full-width">
+        <textarea name="message" placeholder="Enter Message" class="u-full-width"></textarea>
+        <input type="submit" class="button-primary" value="Submit">
+    </form>
+    </div>
+        <% if(typeof(errors) != 'undefined') { %>
+            <% for(var x in errors) { %>
+            <h3><%= errors[x].message %></h3>
+            <% } %>
+        <% } else { %>
+        <div class="hide">
+            <div id="test" class="u-pull-right eleven columns">
+                <% for(var x in messages) { %>
+                <div>
+                    <h5>Name: <%= messages[x].name %></h5>
+                    <h5>Message: <%= messages[x].message %></h5>
+                    <% for (var y = 0; y < messages[x]._comments.length; y++) { %>
+                    <h6>Name: <%= messages[x]._comments[y].name %></h6>
+                    <h6>Comment: <%= messages[x]._comments[y].comment %></h6>
+                    <% } %>
+                    <form action="/comment/<%= messages[x]._id %>" method="post">
+                        <h5>Comment the Message!</h5>
+                        <input type="text" placeholder="Tell them your name" name="name" class="u-full-width">
+                        <textarea name="comment" class="u-full-width" placeholder="What do you want to say?"></textarea>
+                        <input type="submit" class="button" value="Submit">
+                    </form>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <% } %>
+
+</div>
+</body>
+</html>
